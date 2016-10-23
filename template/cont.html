@@ -1,0 +1,51 @@
+<ul class="main">
+    <li class="list" ng-repeat="arr in arrs">
+        <div class="img"><img ng-src="{{arr.images.small}}" alt=""></div>
+        <div class="right">
+            <p>名称: {{arr.title}}</p>
+            <p>导演：{{arr.directors[0].name}}</p> 
+            <p>主演: {{arr.casts[0].name}}/{{arr.casts[1].name}}/{{arr.casts[2].name}}</p>
+            <p>类型：{{arr.genres[0]}}/{{arr.genres[1]}}</p>
+            <p>上映年份：{{arr.year}}中国大陆</p>
+        </div>
+    </li>
+
+</ul>
+
+<style type="text/css">
+    .main{
+        position: absolute;
+        top:2rem;
+        background:#3a3a3a;
+    }
+    .list{
+        width:100%;
+        height:1.4rem;
+        border:1px solid #fff;
+    }
+    .img{
+        float:left;
+        width:1rem;
+        height:100%;
+    }
+    .img img{
+        width:100%;
+        height:1.4rem;
+    }
+
+    .right{
+        width:58%;
+        float:left;
+        height:1.1rem;
+        padding:0.08rem 0;
+        margin-left:0.2rem;
+    }
+    .right p{
+        font-size:0.12rem;
+        color:#fff;
+        line-height:0.18rem;
+        font-weight:100;
+    }
+
+
+</style>
