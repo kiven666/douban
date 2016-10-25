@@ -1,0 +1,54 @@
+<headtop></headtop>
+<div class="topsearch">
+    <div class="contain">
+        <p class="cha">
+            <input type="text" ng-model='insert'>
+            <button ng-click='startSearch()'>查 询</button>
+        </p>
+        <p class="check">您要搜索的是：{{insert}}</p>
+    </div>
+    <cont></cont>
+</div>
+
+
+<style type="text/css">
+    .topsearch{
+        width:100%;
+        height:100vh;
+        background:#3a3a3a;
+        margin-top:0.5rem;
+    }
+    .contain{
+        width:100%;
+        height:0.8rem;
+        overflow: hidden;
+        border-bottom:2px solid #fff;
+    }
+    .cha{
+        margin:17px 0 10px 0;
+    }
+    .cha input{
+        width:2rem;
+        height:0.22rem;
+        float:left;
+        margin-left:0.2rem;
+        text-indent: 4px;
+        letter-spacing: 3px;
+        border-radius: 6px;
+    }
+    .cha button{
+        width:0.5rem;
+        height:0.26rem;
+        background:orange;
+        border:none;
+        border-radius:4px;
+        margin-left:0.1rem;
+        color:#fff;
+        font-size:0.16rem;
+    }
+
+    .check{
+        color:#fff;
+        text-indent: 0.2rem;
+    }
+</style>

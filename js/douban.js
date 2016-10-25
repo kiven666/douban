@@ -20,9 +20,17 @@ app.config(['$routeProvider',function($routeProvider){
         templateUrl:'template/head.html',
         controller:'indexCtrl'
     })
-    .when('/detail',{
+    .when('/recommend',{
+        templateUrl:'template/recommend.html',
+        controller:'recomCtrl'
+    })
+    .when('/detail/:id',{
         templateUrl:'template/detail.html',
         controller:'detailCtrl'
+    })
+    .when('/search',{
+        templateUrl:'template/search.html',
+        controller:'searchCtrl'
     })
 
     .otherwise({
@@ -31,9 +39,8 @@ app.config(['$routeProvider',function($routeProvider){
 }])
 
 //index控制器
-app.controller('indexCtrl', ['$scope','$http','swip', function($scope,$http,swip){
-    //启动轮播图
-    swip.swiper();
+app.controller('indexCtrl', ['$scope','$http', function($scope,$http){
+    $scope.boole = true;
     $scope.name = 'kiven';
     $http.jsonp('js/res.php',{
         params:{
@@ -43,30 +50,81 @@ app.controller('indexCtrl', ['$scope','$http','swip', function($scope,$http,swip
     }).success(function(data){
         // console.log(data);
         $scope.arrs = data.subjects; //得到电影的数组
+        $scope.boole = !$scope.boole;
     })
 }])
 
+
+//recommend控制器
+app.controller('recomCtrl', ['$scope','$http', function($scope,$http){
+    $scope.boole = true;
+    $http.jsonp('js/res.php',{
+        params:{
+            url:'https://api.douban.com/v2/movie/top250',
+            callback:'JSON_CALLBACK'
+        }
+    }).success(function(data){
+        // console.log(data);
+        $scope.arrs = data.subjects; //得到电影的数组
+        $scope.boole = !$scope.boole;
+    })
+}])
+
+
+
+//search控制器
+app.controller('searchCtrl', ['$scope','$http', function($scope,$http){
+    $scope.insert = '';
+    $scope.boole = true;
+    $scope.startSearch = function(){
+        if($scope.insert == ''){
+            alert('请输入搜索内容');
+        }else{
+            $http.jsonp('js/search.php',{
+                params:{
+                   num:$scope.insert,
+                   callback:'JSON_CALLBACK'
+                }
+            }).success(function(data){
+                // console.log(data);
+                $scope.arrs = data.subjects;
+                $scope.boole = !$scope.boole;
+                console.log($scope.arrs);
+            })
+        }
+    }
+    
+}])
+
+//detailCtrl控制器
+
+app.controller('detailCtrl', ['$scope','$http','$routeParams',function($scope,$http,$routeParams){
+    $scope.boole = true;
+    $http.jsonp('js/detail.php',{
+        params:{
+            id:$routeParams.id,
+            callback:'JSON_CALLBACK'
+        }
+    }).success(function(data){
+        console.log(data);
+        $scope.msg = data;
+        $scope.act = data.casts;
+        $scope.boole = !$scope.boole;
+        // console.log(data.casts)
+    })
+}])
+
+
+
 //头部的组件
-app.directive('headtop',function($http,road){
+app.directive('headtop',function($http,$window){
     return {
         templateUrl:'template/headtop.html',
         link:function(scope,ele,attr){
-            // var oli = document.querySelectorAll('.toplist li');
-            var oli = $(".toplist>li");
-            // console.log(oli)
-            oli.on('tap',function(){
-                var inner = this.innerHTML;
-                oli.attr('class','');
-                this.setAttribute('class','active');
-                $http.jsonp('js/res.php',{
-                    params:{
-                        url:road[inner],
-                        callback:'JSON_CALLBACK'
-                    }
-                }).success(function(data){
-                    console.log(data.subjects)
-                    scope.arrs = data.subjects; //得到电影的数组
-                })
+            var allA = ele.find('a');
+            allA.on('tap',function(){
+                allA.removeClass('active');
+                $(this).addClass('active');
             })
         }
     }
@@ -76,37 +134,35 @@ app.directive('headtop',function($http,road){
 app.directive('nav',function($http){
     return {
         templateUrl:'template/nav.html',
-    }
-})
-
-//页面内容
-app.directive('cont',function(){
-    return {
-        templateUrl:'template/cont.html',
-    }
-})
-
-
-//创建一个服务   轮播图滑动的插件
-app.service("swip",function(){
-    return {
-        swiper:function(){
+        link:function(scope,ele,attr){
             var myswiper = new Swiper('.swiper-container', {
                 // direction: 'vertical',  // 一个垂直方向的
                 loop: true,             // 一个循环的滑动
                 pagination: '.swiper-pagination',  // 分页器
-                prevButton: '.swiper-button-prev',
+                // prevButton: '.swiper-button-prev',
                 autoplay: '2000'
             });
         }
     }
 })
 
-
-app.service('road', function(){
+//加载的动画
+app.directive('load',function(){
     return {
-        热门电影:'https://api.douban.com/v2/movie/in_theaters',
-        电影推荐:'https://api.douban.com/v2/movie/top250',
-        电影查询:"'https://api.douban.com/v2/movie/search?q='+ self.data.inputVal",
+        templateUrl:'template/load.html'
     }
 })
+
+
+//页面内容
+app.directive('cont',function($window,$routeParams){
+    return {
+        templateUrl:'template/cont.html',
+        link:function(scope,ele,attr){
+            scope.goDetail = function(id){
+                $window.location.href = '#/detail/' + id;
+            }
+        }
+    }
+})
+

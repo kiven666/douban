@@ -1,0 +1,79 @@
+<div class="contain">
+    <h2><a ng-href="#/head"> < 返回</a>电影详情</h2>
+    <p class="pic"><img ng-src="{{msg.images.large}}"></p>
+    <div class="message">
+        <p>名称: {{msg.title}}</p>
+        <p>导演：{{msg.directors[0].name}}</p> 
+        <p>主演: {{msg.casts[0].name}}/{{msg.casts[1].name}}/{{msg.casts[2].name}}</p>
+        <p>类型：{{msg.genres[0]}}/{{msg.genres[1]}}</p>
+        <p>上映年份：{{msg.year}}中国大陆</p>
+    </div>
+    <ul class="actpic">
+        <li ng-repeat="obj in act">
+            <img ng-src="{{obj.avatars.small}}" alt="">
+        </li>
+    </ul>
+
+    <div class="reduce">
+        {{msg.summary}}
+    </div>
+</div>
+<load></load>
+
+<style type="text/css">
+    .contain{
+        width:100%;
+        background:#3a3a3a;
+        min-height:100vh;
+    }
+    h2{
+        width:100%;
+        height:0.5rem;
+        background:#2b2b2b;
+        font-size:0.2rem;
+        text-align:center;
+        line-height:0.5rem;
+        color:#fff;
+        z-index: 200;
+    }
+    h2 a{
+        float:left;
+        margin-left:0.2rem;
+        font-size:0.16rem;
+        color:#fff;
+    }
+    .actpic li{
+        float:left;
+        margin:0 0.04rem;
+    }
+    .pic{
+        width:100%;
+        height:1.6rem;
+        margin-bottom:0.1rem;
+        border-bottom:2px solid #fff;
+    }
+    .pic img{
+        display: block;
+        width:50%;
+        margin:0.1rem auto;
+        height:100%;
+    }
+    .message{
+        margin:0.1rem 0;
+
+    }
+    .message p{
+        line-height:0.18rem;
+        color:#fff;
+        width:80%;
+        margin:0 auto;
+        text-align:center;
+    }
+    .reduce{
+        line-height:0.18rem;
+        color:#fff;
+        text-indent:0.1rem;
+    }
+
+
+</style>

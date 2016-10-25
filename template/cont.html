@@ -1,5 +1,5 @@
 <ul class="main">
-    <li class="list" ng-repeat="arr in arrs">
+    <li class="list" ng-repeat="arr in arrs" ng-click='goDetail(arr.id)'>
         <div class="img"><img ng-src="{{arr.images.small}}" alt=""></div>
         <div class="right">
             <p>名称: {{arr.title}}</p>
@@ -9,18 +9,17 @@
             <p>上映年份：{{arr.year}}中国大陆</p>
         </div>
     </li>
-
 </ul>
 
 <style type="text/css">
     .main{
-        position: absolute;
-        top:2rem;
+        /*position: absolute;
+        top:2rem;*/
         background:#3a3a3a;
     }
     .list{
         width:100%;
-        height:1.4rem;
+        height:1.5rem;
         border:1px solid #fff;
     }
     .img{
@@ -30,7 +29,7 @@
     }
     .img img{
         width:100%;
-        height:1.4rem;
+        height:100%;
     }
 
     .right{
